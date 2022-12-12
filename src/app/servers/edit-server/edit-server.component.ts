@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { ServersService } from '../servers.service';
 
@@ -12,6 +12,7 @@ export class EditServerComponent implements OnInit {
   server: { id: number; name: string; status: string };
   serverName = '';
   serverStatus = '';
+  allowEdit = false;
 
   constructor(
     private serversService: ServersService,
@@ -21,7 +22,10 @@ export class EditServerComponent implements OnInit {
   ngOnInit() {
     console.log(this.route.snapshot.queryParams); // params and fragment could be fetched when the component is created
     console.log(this.route.snapshot.fragment); // but they will not be udpated
-    this.route.queryParams.subscribe(); // With subscribe, params and fragment could be udpated when they are changed
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      console.log(queryParams['allowEdit']);
+      this.allowEdit = queryParams['allowEdit'] === '1' ? true : false;
+    }); // With subscribe, params and fragment could be udpated when they are changed
     this.route.fragment.subscribe();
     this.server = this.serversService.getServer(1);
     this.serverName = this.server.name;
