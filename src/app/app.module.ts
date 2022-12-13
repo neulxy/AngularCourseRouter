@@ -20,7 +20,6 @@ const appRoutes: Routes = [
     component: UsersComponent,
     children: [{ path: ':id/:name', component: UserComponent }],
   },
-
   {
     path: 'servers',
     component: ServersComponent,
@@ -28,6 +27,14 @@ const appRoutes: Routes = [
       { path: ':id', component: ServerComponent },
       { path: ':id/edit', component: EditServerComponent },
     ],
+  },
+  {
+    path: 'not-found',
+    component: PageNotFoundComponent,
+  },
+  {
+    path: '**', // This wild card path should always be the last
+    redirectTo: '/not-found',
   },
 ];
 
